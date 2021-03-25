@@ -1,0 +1,14 @@
+{
+  "name": "@rentpath/cubbyjs-react",
+  "version": "0.0.1",
+  "main": "index.js",
+  "author": "RentPath",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@rentpath/cubbyjs-common": "^0.0.1"
+  },
+  "peerDependencies": {
+    "react": "*"
+  }
+}

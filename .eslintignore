@@ -1,0 +1,4 @@
+/coverage/*
+lib
+packages/**/node_modules
+packages/*/build
