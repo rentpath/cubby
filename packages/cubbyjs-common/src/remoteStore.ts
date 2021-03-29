@@ -1,8 +1,8 @@
 // import { useCallback, useRef } from 'preact/hooks'
-import initStore from './store'
+import { initStore } from './store'
 type createStoreFn = ReturnType<typeof initStore>['createStore']
 
-interface RemoteStoreConfig {
+export interface RemoteStoreConfig {
   cacheMs?: number
   clientSerialize?: boolean
 }
@@ -112,10 +112,10 @@ interface Cache<T> {
   fetching?: boolean
 }
 
-export default (
+export const initRemoteStore = (
   store: createStoreFn,
-  useCallback: <T extends Function>(callback: T, inputs: readonly unknown[]) => T,
-  useRef: <T>(initialValue?: T | null | undefined) => { current: T }
+  useCallback: <CB extends (...args: any[]) => any>(callback: CB, inputs: readonly unknown[]) => CB,
+  useRef: <I>(initialValue?: I | null | undefined) => { current: I }
 ) => {
   return function createRemoteStore<T, A extends unknown[]>(
     name: string,

@@ -18,7 +18,7 @@ export type Config = {
   clientSerialize?: boolean
 }
 
-export default (
+export const initStore = (
   h: <Children, Return>(
     type: string,
     props: Record<string, any>,
@@ -26,7 +26,7 @@ export default (
   ) => Return,
   useEffect: (cb: () => () => any | void, inputs: readonly unknown[]) => void,
   useState: <S>(initialState: S | (() => S)) => [S, (value: S | ((prevState: S) => S)) => void],
-  useRef: <T>(initialValue?: T | null | undefined) => { current: T }
+  useRef: <I>(initialValue?: I | null | undefined) => { current: I }
 ) => {
   const storeCacheKey = '__CUBBY_STORE_CACHE__'
   let cache: Record<string, { state: unknown }> = (typeof document !== 'undefined'

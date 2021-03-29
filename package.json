@@ -6,6 +6,17 @@
   "author": "RentPath",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "build": "lerna run build",
+    "clean": "lerna run clean",
+    "commit": "cz",
+    "commit:lint": "commitlint -f $(git log origin/main --oneline --pretty=%h | head -n 1) -t $(git rev-parse --short HEAD) --verbose",
+    "lint:ts": "yarn lint:ts:ci --fix",
+    "lint:ts:ci": "eslint --cache --no-error-on-unmatched-pattern packages",
+    "test": "jest",
+    "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand"
+  },
+  "dependencies": {},
   "devDependencies": {
     "@commitlint/cli": "^12.0.1",
     "@commitlint/config-conventional": "^12.0.1",
@@ -27,7 +38,10 @@
     "rollup": "^2.42.4",
     "ts-jest": "^26.5.4",
     "tslib": "^2.1.0",
-    "typescript": "^4.2.3"
+    "typescript": "^4.2.3",
+    "preact": "*",
+    "react": "*",
+    "@types/react": "*"
   },
   "workspaces": [
     "packages/*"
