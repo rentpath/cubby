@@ -70,5 +70,5 @@
 
     "pretty": true
   },
-  "exclude": ["**/__tests__", "**/build", "**/examples"]
+  "exclude": ["**/__tests__", "**/build", "**/examples", "**/rollup.config.ts"]
 }

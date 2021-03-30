@@ -9,7 +9,7 @@
   "types": "build/types/index.d.ts",
   "scripts": {
     "clean": "rm -rf build",
-    "build": "rollup -c rollup.config.js",
+    "build": "rollup -c rollup.config.ts",
     "build:cjs": "yarn tsc -b ./tsconfig.server.json",
     "build:es": "yarn tsc -b ./tsconfig.json",
     "build:watch": "concurrently --names 'cjs,es' 'yarn build:cjs -w' 'yarn build:es -w'",
