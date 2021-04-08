@@ -1,0 +1,86 @@
+name: Publish Packages
+on:
+  pull_request:
+    types: [closed]
+jobs:
+  publish_package:
+    if: github.event.pull_request.merged == true
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "discern whether committer is human"
+        id: is-bot-event
+        run: echo "::set-output name=value::${{ github.event.pusher.name == 'GHA Bot' }}"
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+          registry-url: https://npm.pkg.github.com
+          scope: "@rentpath"
+        name: "install node.js"
+        if: contains(steps.is-bot-event.outputs.value, 'false')
+      - name: "set .npmrc for auth"
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GH_TOKEN }}\n@rentpath:registry=https://npm.pkg.github.com/" > .npmrc
+          yarn config set @rentpath:registry https://npm.pkg.github.com
+        if: contains(steps.is-bot-event.outputs.value, 'false')
+      - name: "clone repo with full history for lerna"
+        uses: actions/checkout@v2
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.GH_TOKEN }}
+        if: contains(steps.is-bot-event.outputs.value, 'false')
+      - name: "get all the tags"
+        run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+        if: contains(steps.is-bot-event.outputs.value, 'false')
+      - name: get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+        if: contains(steps.is-bot-event.outputs.value, 'false')
+      - uses: actions/cache@v1
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+        if: contains(steps.is-bot-event.outputs.value, 'false')
+      - run: yarn install
+        name: "install dependencies"
+        if: contains(steps.is-bot-event.outputs.value, 'false')
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
+      - run: yarn run build
+        name: "build packages"
+        if: contains(steps.is-bot-event.outputs.value, 'false')
+      - run: yarn run lint
+        name: "lint"
+        if: contains(steps.is-bot-event.outputs.value, 'false')
+      - run: yarn run test:coverage
+        name: "test"
+        if: contains(steps.is-bot-event.outputs.value, 'false')
+      - run: yarn run commit:lint
+        name: "commitlint"
+      - name: "configure git for lerna"
+        run: |
+          git remote set-url origin https://$DEPLOY_ACTOR:$DEPLOY_TOKEN@github.com/rentpath/ui-ux
+          git config --global user.email "gha_bot@rentpath.com"
+          git config --global user.name "GHA Bot"
+          git config --global http.http.https://github.com/.extraheader "AUTHORIZATION: bearer ${DEPLOY_TOKEN}"
+        env:
+          DEPLOY_ACTOR: ${{ secrets.GH_ACTOR }}
+          DEPLOY_TOKEN: ${{ secrets.GH_DEPLOY_TOKEN }}
+        if: contains(steps.is-bot-event.outputs.value, 'false')
+      - name: get branch name without prefix
+        id: branch-name
+        run: echo "::set-output name=value::$( echo ${{ github.ref }} | sed -E -e 's/refs\/heads\/(.*)/\1/g' -e 's/[\/_]/-/g' )"
+      - name: "publish packages"
+        run: |
+          changed_packages=$(npx lerna changed -a | sed -e ':a' -e 'N;$!ba' -e 's/\n/,/g')
+          if [  $(echo $changed_packages | wc -c)  -gt 1 ] ; then
+            npx lerna version --yes --exact --conventional-commits --conventional-graduate=${changed_packages}
+            npx lerna publish from-package --yes --registry https://npm.pkg.github.com
+          else
+              echo "Refraining from publishing a new version."
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
