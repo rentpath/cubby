@@ -22,6 +22,13 @@ jobs:
           fetch-depth: 0
           token: ${{ github.token }}
 
+      - name: validate pipeline permissions
+        env:
+          PIPELINE_AUTHOR: ${{ github.actor }}
+          DIRECTORY: .github/workflows/owners/npm/OWNERS
+        run: |
+          ./.github/workflows/scripts/check_owners.sh -a ${PIPELINE_AUTHOR} -d ${DIRECTORY}
+
       - name: get all the tags
         run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
 
