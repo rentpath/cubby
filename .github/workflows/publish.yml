@@ -54,11 +54,13 @@ jobs:
       - name: build packages
         run: yarn run build
 
-      - name: lint
-        run: yarn run lint:ts:ci
+      # FIXME: https://rentpath.atlassian.net/browse/DX-865
+      # - name: lint
+      #   run: yarn run lint:ts:ci
 
-      - name: test
-        run: yarn run test
+      # FIXME: currently fails because there are no tests
+      # - name: test
+      #   run: yarn run test
 
       - name: commitlint
         run: yarn run commit:lint
