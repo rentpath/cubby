@@ -24,7 +24,7 @@
     "react": "*"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "restricted"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^11.2.1",
