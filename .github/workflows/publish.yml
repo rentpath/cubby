@@ -13,13 +13,14 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 14.x
-          registry-url: https://registry.npmjs.org
+          registry-url: https://npm.pkg.github.com
           scope: "@rentpath"
 
       - name: clone repo with full history for lerna
         uses: actions/checkout@v2
         with:
-          ref: main
+          # ref: main
+          ref: ab/DX-796
           fetch-depth: 0
           token: ${{ github.token }}
 
@@ -84,5 +85,5 @@ jobs:
               echo "Refraining from publishing a new version."
           fi
         env:
-          NODE_AUTH_TOKEN: ${{ github.token }}
+          NODE_AUTH_TOKEN: ${{ secrets.GH_RENTPATH_PLATENG_GPR_PUSH_TOKEN }}
           # NODE_AUTH_TOKEN: ${{ secrets.NPMJS_TOKEN }}
