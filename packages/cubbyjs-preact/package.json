@@ -24,7 +24,7 @@
     "preact": "*"
   },
   "publishConfig": {
-    "access": "restricted"
+    "access": "public"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^11.2.1",
