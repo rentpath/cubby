@@ -1,0 +1,84 @@
+name: Publish Packages
+on:
+  pull_request:
+    types: [closed]
+  workflow_dispatch:
+jobs:
+  publish_package:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: install node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+          registry-url: https://npm.pkg.github.com
+          scope: "@rentpath"
+
+      - name: clone repo with full history for lerna
+        uses: actions/checkout@v2
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ github.token }}
+
+      - name: validate pipeline permissions
+        env:
+          PIPELINE_AUTHOR: ${{ github.actor }}
+          DIRECTORY: .github/workflows/owners/npm/OWNERS
+        run: |
+          ./.github/workflows/scripts/check_owners.sh -a ${PIPELINE_AUTHOR} -d ${DIRECTORY}
+
+      - name: get all the tags
+        run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+
+      - name: get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - uses: actions/cache@v1
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: install dependencies
+        run: yarn install
+        env:
+          NODE_AUTH_TOKEN: ${{ github.token }}
+
+      - name: build packages
+        run: yarn run build
+
+      # FIXME: https://rentpath.atlassian.net/browse/DX-865
+      # - name: lint
+      #   run: yarn run lint:ts:ci
+
+      # FIXME: currently fails because there are no tests
+      # - name: test
+      #   run: yarn run test
+
+      - name: commitlint
+        run: yarn run commit:lint
+
+      - name: configure git identity
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/$GITHUB_REPOSITORY
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: publish packages
+        run: |
+          changed_packages=$(npx lerna changed -a | sed -e ':a' -e 'N;$!ba' -e 's/\n/,/g')
+          if [  $(echo $changed_packages | wc -c)  -gt 1 ] ; then
+              npx lerna version --yes --exact --conventional-commits --conventional-graduate=${changed_packages}
+              npx lerna publish from-package --yes --registry https://registry.npmjs.org
+          else
+              echo "Refraining from publishing a new version."
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPMJS_TOKEN }}

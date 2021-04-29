@@ -6,6 +6,7 @@
 .cache
 .editorconfig
 .eslintcache
+.husky/
 .idea
 *.log
 *.mmdb
