@@ -3,4 +3,7 @@ import { createStore } from './store'
 import { useRef, useCallback } from 'preact/hooks'
 
 export { RemoteStore, RemoteStoreConfig } from '@rentpath/cubbyjs-common'
-export const createRemoteStore = initRemoteStore(createStore, useCallback, useRef)
+const remoteStore = initRemoteStore(createStore, useCallback, useRef)
+
+export const createRemoteStore = remoteStore.createRemoteStore
+export const useUnwrap = remoteStore.useUnwrap

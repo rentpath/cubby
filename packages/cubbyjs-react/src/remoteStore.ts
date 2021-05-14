@@ -3,4 +3,7 @@ import { createStore } from './store'
 import * as React from 'react'
 
 export { RemoteStore, RemoteStoreConfig } from '@rentpath/cubbyjs-common'
-export const createRemoteStore = initRemoteStore(createStore, React.useCallback, React.useRef)
+const remoteStore = initRemoteStore(createStore, React.useCallback, React.useRef)
+
+export const createRemoteStore = remoteStore.createRemoteStore
+export const useUnwrap = remoteStore.useUnwrap

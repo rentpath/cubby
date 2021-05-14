@@ -16,6 +16,7 @@ const defaultCacheMs = 5000
 type UseRemoteStoreReturn<T> = {
   result?: T
   fetching: boolean
+  error?: Error
   refetch: () => void
 }
 
@@ -102,8 +103,8 @@ export interface RemoteStore<T, A extends unknown[]> {
     transform: (newState: T) => NT | Promise<NT>,
     derivedConfig?: Omit<RemoteStoreConfig, 'cacheMs'>
   ) => RemoteStore<NT, A> & { parent: RemoteStore<T, A> }
-  __mockRequestSuccess: (arg: A, state: T) => void
-  __mockRequestFailure: (arg: A, error: Error) => void
+  __mockRequestSuccess: (arg: A, state: T, fetching?: boolean) => void
+  __mockRequestFailure: (arg: A, error: Error, fetching?: boolean) => void
 }
 
 interface Cache<T> {
@@ -117,7 +118,7 @@ export const initRemoteStore = (
   useCallback: <CB extends (...args: any[]) => any>(callback: CB, inputs: readonly unknown[]) => CB,
   useRef: <I>(initialValue?: I | null | undefined) => { current: I }
 ) => {
-  return function createRemoteStore<T, A extends unknown[]>(
+  function createRemoteStore<T, A extends unknown[]>(
     name: string,
     query: (...args: A) => Promise<T>,
     config: RemoteStoreConfig = {}
@@ -238,16 +239,10 @@ export const initRemoteStore = (
         fetching = true
       }
 
-      const errorRef = useRef<Error | undefined>()
-      const prevError = errorRef.current
-      errorRef.current = error
-      if (error && prevError !== error) {
-        throw error
-      }
-
       return {
         result,
         fetching,
+        error,
         refetch() {
           void _fetchQuery(args, true)
         },
@@ -271,25 +266,27 @@ export const initRemoteStore = (
       }
     }
 
-    function __mockRequestSuccess(args: unknown[], state: T) {
+    function __mockRequestSuccess(args: unknown[], state: T, fetching = false) {
       const cacheKey = createCacheKey(args)
       cacheStore.__mock({
+        ...cacheStore.get(),
         [cacheKey]: {
           result: { state },
           lastFetched: 0,
-          fetching: false,
+          fetching,
         },
       })
       cacheMs = Infinity
     }
 
-    function __mockRequestFailure(args: unknown[], error: Error) {
+    function __mockRequestFailure(args: unknown[], error: Error, fetching = false) {
       const cacheKey = createCacheKey(args)
       cacheStore.__mock({
+        ...cacheStore.get(),
         [cacheKey]: {
           result: { error },
           lastFetched: 0,
-          fetching: false,
+          fetching,
         },
       })
       cacheMs = Infinity
@@ -323,5 +320,20 @@ export const initRemoteStore = (
       __mockRequestFailure,
     }
     return remoteStore
+  }
+
+  function useUnwrap<T extends { error?: Error }>({ error, ...rest }: T): Omit<T, 'error'> {
+    const errorRef = useRef<Error | undefined>()
+    const prevError = errorRef.current
+    errorRef.current = error
+    if (error && prevError !== error) {
+      throw error
+    }
+    return rest
+  }
+
+  return {
+    useUnwrap,
+    createRemoteStore,
   }
 }
