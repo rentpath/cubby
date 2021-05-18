@@ -10,5 +10,6 @@ export const {
   __mockIsClient__,
   clearClientSerializeIdsCache,
   createStore,
+  resetStores,
   storeCacheKey,
 } = initStore(React.createElement, React.useEffect, React.useState, React.useRef)
