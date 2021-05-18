@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.1](https://github.com/rentpath/cubbyjs/compare/@rentpath/cubbyjs-common@0.1.0...@rentpath/cubbyjs-common@0.1.1) (2021-05-18)
+
+**Note:** Version bump only for package @rentpath/cubbyjs-common
+
+
+
+
+
 # [0.1.0](https://github.com/rentpath/cubbyjs/compare/@rentpath/cubbyjs-common@0.0.0...@rentpath/cubbyjs-common@0.1.0) (2021-05-18)
 
 
