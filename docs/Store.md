@@ -9,14 +9,14 @@
 
 ## <a id="create">Creating a Store</a>
 
-A Store is a global store that provides access to some shared state from anywhere in the application.
+A Store is a container that provides access to some shared state from anywhere in the application.
 
-To create a Store, we can use the `store` function. We need to define the shape of the data we want to store in the
-Store as well as an initial state that the Store will be initialized with. The first argument of the store is its
-name, which is required to be unique among all your other store.
+To create a Store, we can use the `createStore` function. We need to define the shape of the data we want to store in the
+Store as well as an initial state that the Store will be initialized with. The first argument is the Store's
+name, which is required to be unique among all your other stores.
 
 ```ts
-import { store } from '@toolkit/store/store'
+import { createStore } from 'cubbyjs-react'
 
 interface StoreType {
   foo: string
@@ -28,9 +28,9 @@ const initialState: StoreType = {
   bar: { baz: 42 },
 }
 
-// The generic argument here is the type of the data in the store
+// The generic argument here is the type of the data in the Store
 // It will be inferred if you skip it, but best practice is to always be explicit
-export const aSimpleStore = store<StoreType>('myStore', initialState)
+export const aSimpleStore = createStore<StoreType>('myStore', initialState)
 ```
 
 ## <a id="consume">Consuming a Store</a>
@@ -42,7 +42,7 @@ To consume the store we've created in a React component, we can simply use the `
 ```tsx
 import { aSimpleStore } from '../stores/simpleStore'
 
-export function ExampleStore() {
+export function Example() {
   const data = aSimpleStore.useStore()
 
   return (
@@ -54,11 +54,11 @@ export function ExampleStore() {
 }
 ```
 
-Our hook will connect our component to the store and cause it to update and re-render the component whenever the data inside the store updates. You can think of this like "connecting" the component to the store, to use Redux terms.
+Our hook will connect our component to the Store and cause it to update and re-render the component whenever the data inside the Store updates. You can think of this like "connecting" the component to the Store, to use Redux terms.
 
 ### Outside of React
 
-The store is a singleton available anywhere in the application, even outside React. To consume the data in the store, simply use
+The Store is a singleton available anywhere in the application, even outside React. To consume the data in the Store, simply use
 the `get` method.
 
 ```ts
@@ -67,14 +67,14 @@ import { aSimpleStore } from '../stores/simpleStore'
 const someData = aSimpleStore.get()
 ```
 
-This will extract the current value of the store. There's no smart subscription happening here like when using the hook in a
+This will extract the current value of the Store. There's no smart subscription happening here like when using the hook in a
 React component - it is one and done. _If you extract a value then use it later asynchronously, beware of stale data!_
 
 ## <a id="update">Updating a Store</a>
 
 ### Using Set
 
-Store expose a `set` method that can be used to pass a new state into the store:
+Stores expose a `set` method that can be used to pass a new state into the Store:
 
 ```ts
 aSimpleStore.set({ ...aSimpleStore.get(), foo: 'goodbye world' })
@@ -91,8 +91,8 @@ to be bound to a dispatcher and can instead be used directly by importing them.
 // store.ts file
 export const aSimpleStore = store<StoreType>('myStore', initialState)
 
-export const goodbye = aSimpleStore.createAction(function (set, getCurrent) {
-  set({ ...getCurrent(), foo: 'goodbye world' })
+export const goodbye = aSimpleStore.createAction(function (set, get) {
+  set({ ...get(), foo: 'goodbye world' })
 })
 ```
 
@@ -101,7 +101,7 @@ export const goodbye = aSimpleStore.createAction(function (set, getCurrent) {
 import { aSimpleStore, goodbye } from '../stores/simpleStore'
 
 // Later, in the markup...
-;<button onClick={(_) => goodbye(null)}>Goodbye</button>
+;<button onClick={(_) => goodbye()}>Goodbye</button>
 ```
 
 We can also create actions that accept arguments. Typescript will infer
