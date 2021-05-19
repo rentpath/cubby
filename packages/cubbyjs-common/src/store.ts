@@ -33,6 +33,7 @@ export const initStore = (
     ? JSON.parse(document.getElementById(storeCacheKey)?.innerHTML || '{}')
     : {}) as Record<string, { state: unknown }>
   const clientSerializeIds = new Set<string>()
+  const resetCallbackMap = new Map<string, () => void>()
 
   let isClient: boolean = typeof window !== 'undefined'
 
@@ -46,6 +47,11 @@ export const initStore = (
       }
     }
     let storeState: T = initial
+
+    resetCallbackMap.set(name, () => {
+      storeState = initial
+    })
+
     if (isClient && clientSerialize && cache[name] != null) {
       const cacheState = cache[name] as { state: T }
       storeState = cacheState.state
@@ -157,6 +163,8 @@ export const initStore = (
     clientSerializeIds.clear()
   }
 
+  const resetStores = () => resetCallbackMap.forEach((cb) => cb())
+
   const __getClientSerializeIdsCache = () => new Set(clientSerializeIds)
 
   const __mockIsClient__ = (mockIsClient: boolean) => {
@@ -174,6 +182,7 @@ export const initStore = (
     createStore,
     StoreCacheScript,
     clearClientSerializeIdsCache,
+    resetStores,
     __getClientSerializeIdsCache,
     __mockIsClient__,
     __mockCache__,

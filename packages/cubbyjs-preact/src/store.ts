@@ -11,5 +11,6 @@ export const {
   __mockIsClient__,
   clearClientSerializeIdsCache,
   createStore,
+  resetStores,
   storeCacheKey,
 } = initStore(h, useEffect, useState, useRef)
