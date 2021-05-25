@@ -1,5 +1,5 @@
 {
-  "name": "@rentpath/cubbyjs-common",
+  "name": "@cubby/react",
   "version": "0.2.0",
   "author": "RentPath",
   "license": "MIT",
@@ -17,14 +17,20 @@
     "test:coverage": "yarn jest --coverage",
     "test:watch": "yarn run test --watch"
   },
+  "dependencies": {
+    "@cubby/common": "0.2.0"
+  },
+  "peerDependencies": {
+    "react": "*"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^11.2.1",
     "eslint-plugin-react-hooks": "^4.2.0",
     "rollup": "^2.44.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-typescript2": "^0.30.0"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }
