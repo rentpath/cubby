@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.3.0 (2021-05-25)
+
+
+### Features
+
+* rename and rescope packages ([e5538c3](https://github.com/rentpath/cubby/commit/e5538c399324cac65c2a5c1d798de6f93271c571))
+
+
+
+
+
 # [0.2.0](https://github.com/rentpath/cubbyjs/compare/@rentpath/cubbyjs-common@0.1.1...@rentpath/cubbyjs-common@0.2.0) (2021-05-19)
 
 
