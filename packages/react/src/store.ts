@@ -1,7 +1,7 @@
-import { initStore } from '@cubby/common'
+import { initStore } from '@cubbyjs/common'
 import * as React from 'react'
 
-export { Store, Config } from '@cubby/common'
+export { Store, Config } from '@cubbyjs/common'
 export const {
   StoreCacheScript,
   __getCache__,

@@ -1,8 +1,8 @@
-import { initStore } from '@cubby/common'
+import { initStore } from '@cubbyjs/common'
 import { h } from 'preact'
 import { useEffect, useState, useRef } from 'preact/hooks'
 
-export { Store, Config } from '@cubby/common'
+export { Store, Config } from '@cubbyjs/common'
 export const {
   StoreCacheScript,
   __getCache__,

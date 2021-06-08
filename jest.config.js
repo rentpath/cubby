@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: '@cubby',
+  displayName: '@cubbyjs',
   globals: {
     'ts-jest': {
       babelConfig: true,
@@ -21,19 +21,19 @@ module.exports = {
   ],
   coverageReporters: ['json', 'lcov', 'text', 'clover'],
   coverageThreshold: {
-    './packages/cubby-common': {
+    './packages/cubbyjs-common': {
       branches: 70,
       functions: 70,
       lines: 70,
       statements: 70,
     },
-    './packages/cubby-preact': {
+    './packages/cubbyjs-preact': {
       branches: 70,
       functions: 70,
       lines: 70,
       statements: 70,
     },
-    './packages/cubby-react': {
+    './packages/cubbyjs-react': {
       branches: 70,
       functions: 70,
       lines: 70,

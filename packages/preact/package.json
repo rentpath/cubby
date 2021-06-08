@@ -1,5 +1,5 @@
 {
-  "name": "@cubby/preact",
+  "name": "@cubbyjs/preact",
   "version": "0.3.0",
   "author": "RentPath",
   "license": "MIT",
@@ -18,7 +18,7 @@
     "test:watch": "yarn run test --watch"
   },
   "dependencies": {
-    "@cubby/common": "0.3.0"
+    "@cubbyjs/common": "0.3.0"
   },
   "peerDependencies": {
     "preact": "*"

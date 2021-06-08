@@ -1,8 +1,8 @@
 {
-  "name": "cubby",
+  "name": "cubbyjs",
   "version": "0.1.0",
   "main": "index.js",
-  "repository": "https://github.com/rentpath/cubby",
+  "repository": "https://github.com/rentpath/cubbyjs",
   "author": "RentPath",
   "license": "MIT",
   "private": true,
