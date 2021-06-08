@@ -28,7 +28,7 @@ export const initStore = (
   useState: <S>(initialState: S | (() => S)) => [S, (value: S | ((prevState: S) => S)) => void],
   useRef: <I>(initialValue?: I | null | undefined) => { current: I }
 ) => {
-  const storeCacheKey = '__cubbyjs_STORE_CACHE__'
+  const storeCacheKey = '__CUBBY_STORE_CACHE__'
   let cache: Record<string, { state: unknown }> = (typeof document !== 'undefined'
     ? JSON.parse(document.getElementById(storeCacheKey)?.innerHTML || '{}')
     : {}) as Record<string, { state: unknown }>

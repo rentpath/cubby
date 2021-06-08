@@ -20,7 +20,7 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
-          token: ${{ secrets.GH_GPR_TOKEN }}
+          token: ${{ secrets.NPMJS_CUBBY_TOKEN }}
 
       - name: validate pipeline permissions
         env:
