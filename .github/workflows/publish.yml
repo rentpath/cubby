@@ -13,14 +13,14 @@ jobs:
         with:
           node-version: 14.x
           registry-url: https://registry.npmjs.org
-          scope: "@cubby"
+          scope: "@cubbyjs"
 
       - name: clone repo with full history for lerna
         uses: actions/checkout@v2
         with:
           ref: main
           fetch-depth: 0
-          token: ${{ secrets.GH_GPR_TOKEN }}
+          token: ${{ secrets.NPMJS_CUBBY_TOKEN }}
 
       - name: validate pipeline permissions
         env:

@@ -1,8 +1,8 @@
-import { initRemoteStore, RemoteStore, RemoteStoreConfig } from '@cubby/common'
+import { initRemoteStore, RemoteStore, RemoteStoreConfig } from '@cubbyjs/common'
 import { createStore } from './store'
 import { useRef, useCallback } from 'preact/hooks'
 
-export { RemoteStore, RemoteStoreConfig } from '@cubby/common'
+export { RemoteStore, RemoteStoreConfig } from '@cubbyjs/common'
 const remoteStore = initRemoteStore(createStore, useCallback, useRef)
 
 export const createRemoteStore = remoteStore.createRemoteStore
