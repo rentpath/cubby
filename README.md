@@ -1,1 +1,1 @@
-# cubby
+# cubbyjs
