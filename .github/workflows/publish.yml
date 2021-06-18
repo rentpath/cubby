@@ -63,6 +63,16 @@ jobs:
       - name: commitlint
         run: yarn run commit:lint
 
+      - name: configure git identity
+        run: |
+          git remote set-url origin https://$DEPLOY_ACTOR:$DEPLOY_TOKEN@github.com/${{ github.repository }}
+          git config --global user.name $DEPLOY_ACTOR
+          git config --global user.email 'idg.dx@rentpath.com'
+          git config --global http.http.https://github.com/.extraheader "AUTHORIZATION: bearer ${DEPLOY_TOKEN}"
+        env:
+          DEPLOY_ACTOR: rentpath-workflow-bot
+          DEPLOY_TOKEN: ${{ secrets.GHCR_USER_PAT }}
+
       - name: version packages
         run: |
           changed_packages=$(npx lerna changed -a | sed -e ':a' -e 'N;$!ba' -e 's/\n/,/g')
@@ -75,14 +85,7 @@ jobs:
 
       - name: push versioned commit
         run: |
-          git remote set-url origin https://$DEPLOY_ACTOR:$DEPLOY_TOKEN@github.com/${{ github.repository }}
-          git config --global user.name $DEPLOY_ACTOR
-          git config --global user.email 'idg.dx@rentpath.com'
-          git config --global http.http.https://github.com/.extraheader "AUTHORIZATION: bearer ${DEPLOY_TOKEN}"
           git push
-        env:
-          DEPLOY_ACTOR: rentpath-workflow-bot
-          DEPLOY_TOKEN: ${{ secrets.GPR_PUBLIC_TOKEN }}
 
       - name: publish packages
         run: |
