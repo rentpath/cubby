@@ -20,7 +20,7 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
-          token: ${{ secrets.GPR_PUBLIC_TOKEN }}
+          token: ${{ secrets.GHCR_CUBBY_TOKEN }}
 
       - name: validate pipeline permissions
         env:
@@ -71,7 +71,7 @@ jobs:
           git config --global http.http.https://github.com/.extraheader "AUTHORIZATION: bearer ${DEPLOY_TOKEN}"
         env:
           DEPLOY_ACTOR: rentpath-workflow-bot
-          DEPLOY_TOKEN: ${{ secrets.GHCR_USER_PAT }}
+          DEPLOY_TOKEN: ${{ secrets.GHCR_CUBBY_TOKEN }}
 
       - name: version packages
         run: |
