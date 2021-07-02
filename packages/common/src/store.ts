@@ -159,9 +159,26 @@ export const initStore = (
 
   const resetStores = () => resetCallbackMap.forEach((cb) => cb())
 
+  const useCubbyInitialize = <
+    S extends Record<string, { initialize: (init: any) => void }>,
+    I extends { [K in keyof S]: Parameters<S[K]['initialize']>[0] }
+  >(
+    stores: S,
+    initialData: I
+  ): void => {
+    const hasInitialized = useRef(false)
+    if (!hasInitialized.current) {
+      hasInitialized.current = true
+      for (const key of Object.keys(stores)) {
+        stores[key]?.initialize(initialData[key])
+      }
+    }
+  }
+
   return {
     createStore: <State>(name: string, initial: State): Store<State> =>
       createStore(name, initial, false),
     resetStores,
+    useCubbyInitialize,
   }
 }

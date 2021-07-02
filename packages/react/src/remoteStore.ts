@@ -2,7 +2,13 @@ import { initRemoteStore } from '@cubbyjs/common'
 import { createStore } from './store'
 import * as React from 'react'
 
-export { RemoteStore, RemoteStoreConfig } from '@cubbyjs/common'
+export {
+  RemoteStore,
+  RemoteStoreConfig,
+  GetRemoteStoreReturn,
+  UseRemoteStoreReturn,
+  FetchedState,
+} from '@cubbyjs/common'
 const remoteStore = initRemoteStore(createStore, React.useCallback, React.useRef)
 
 export const createRemoteStore = remoteStore.createRemoteStore
