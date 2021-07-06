@@ -24,12 +24,6 @@ export interface UseRemoteStoreReturn<Result> extends GetRemoteStoreReturn<Resul
 
 type ObjectOf<T> = Record<string, T>
 
-const omitKey = <T, K extends keyof T>(obj: T, key: K): Omit<T, K> => {
-  const omitted = { ...obj } as Partial<Pick<T, K>> & Omit<T, K>
-  delete omitted[key]
-  return omitted
-}
-
 const sortMapEntries = (
   entries: [string, unknown][],
   cache: Map<unknown, string>,
