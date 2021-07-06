@@ -150,7 +150,7 @@ export const initStore = (
       __mock,
     }
 
-    if (__isDerived) {
+    if (!__isDerived) {
       store.initialize = initialize
     }
 
