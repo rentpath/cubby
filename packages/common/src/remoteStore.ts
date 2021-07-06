@@ -1,10 +1,9 @@
 // import { useCallback, useRef } from 'preact/hooks'
-import { initStore } from './store'
+import { INITIALIZE_SYMBOL, initStore } from './store'
 type createStoreFn = ReturnType<typeof initStore>['createStore']
 
 export interface RemoteStoreConfig {
   cacheMs?: number
-  clientSerialize?: boolean
 }
 
 const createName = (name: string, base: string): string => {
@@ -13,20 +12,17 @@ const createName = (name: string, base: string): string => {
 
 const defaultCacheMs = 5000
 
-type UseRemoteStoreReturn<T> = {
-  result?: T
+export interface GetRemoteStoreReturn<Result> {
+  result?: Result
   fetching: boolean
   error?: Error
+}
+
+export interface UseRemoteStoreReturn<Result> extends GetRemoteStoreReturn<Result> {
   refetch: () => void
 }
 
-type GetRemoteStoreReturn<T> = {
-  result?: T
-  fetching: boolean
-  error?: Error
-}
-
-type ObjectOf<T> = Partial<Record<string, T>>
+type ObjectOf<T> = Record<string, T>
 
 const sortMapEntries = (
   entries: [string, unknown][],
@@ -88,62 +84,98 @@ const getSortedEntries = (val: unknown, cache: Map<unknown, string>, path: strin
 const createCacheKey = (vals: unknown[]): string =>
   JSON.stringify(vals.map((val) => getSortedEntries(val, new Map(), 'arg')))
 
-export interface RemoteStore<T, A extends unknown[]> {
-  fetchQuery: (...args: A) => Promise<T>
-  forceFetchQuery: (...args: A) => Promise<T>
-  cachedFetchQuery: (...args: A) => Promise<T>
-  getRemoteStore: (...args: A) => GetRemoteStoreReturn<T>
-  useRemoteStore: (...args: A) => UseRemoteStoreReturn<T | undefined>
-  useRemoteStoreWithGetter: <R>(
-    getter: (state: T | undefined) => R,
-    ...args: A
-  ) => UseRemoteStoreReturn<R>
-  createDerivedRemoteStore: <NT>(
-    derivedName: string,
-    transform: (newState: T) => NT | Promise<NT>,
-    derivedConfig?: Omit<RemoteStoreConfig, 'cacheMs'>
-  ) => RemoteStore<NT, A> & { parent: RemoteStore<T, A> }
-  __mockRequestSuccess: (arg: A, state: T, fetching?: boolean) => void
-  __mockRequestFailure: (arg: A, error: Error, fetching?: boolean) => void
+export interface FetchedState<Args, Result> {
+  args: Args
+  result: Result
 }
 
-interface Cache<T> {
-  result?: { state: T } | { error: Error }
+type OptionalInitializeRemoteStore<Args extends unknown[], Result> = Omit<
+  RemoteStore<Args, Result>,
+  'initialize'
+> &
+  Partial<Pick<RemoteStore<Args, Result>, 'initialize'>>
+
+type DerivedRemoteStore<Args extends unknown[], TransformedResult> = Omit<
+  RemoteStore<Args, TransformedResult>,
+  'initialize'
+> & {
+  parent: OptionalInitializeRemoteStore<Args, TransformedResult>
+}
+
+export interface RemoteStore<Args extends unknown[], Result> {
+  fetchQuery: (...args: Args) => Promise<Result>
+  forceFetchQuery: (...args: Args) => Promise<Result>
+  cachedFetchQuery: (...args: Args) => Promise<Result>
+  getRemoteStore: (...args: Args) => GetRemoteStoreReturn<Result>
+  useRemoteStore: (...args: Args) => UseRemoteStoreReturn<Result | undefined>
+  useRemoteStoreWithGetter: <SubResult>(
+    getter: (state: Result | undefined) => SubResult,
+    ...args: Args
+  ) => UseRemoteStoreReturn<SubResult>
+  createDerivedRemoteStore: <TransformedResult>(
+    derivedName: string,
+    transform: (newState: Result) => TransformedResult
+  ) => DerivedRemoteStore<Args, TransformedResult>
+  initialize: (initial: FetchedState<Args, Result>[]) => void
+  [INITIALIZE_SYMBOL]: (initial: FetchedState<Args, Result>[]) => void
+  __mockRequestSuccess: (arg: Args, state: Result, fetching?: boolean) => void
+  __mockRequestFailure: (arg: Args, error: Error, fetching?: boolean) => void
+}
+
+interface Cache<Result> {
+  result?: { state: Result } | { error: Error }
   lastFetched?: number
   fetching?: boolean
 }
 
 export const initRemoteStore = (
   store: createStoreFn,
-  useCallback: <CB extends (...args: any[]) => any>(callback: CB, inputs: readonly unknown[]) => CB,
-  useRef: <I>(initialValue?: I | null | undefined) => { current: I }
+  useCallback: <Callback extends (...args: any[]) => any>(
+    callback: Callback,
+    inputs: readonly unknown[]
+  ) => Callback,
+  useRef: <InitialValue>(
+    initialValue?: InitialValue | null | undefined
+  ) => { current: InitialValue }
 ) => {
-  function createRemoteStore<T, A extends unknown[]>(
+  function createRemoteStore<Args extends unknown[], Result>(
     name: string,
-    query: (...args: A) => Promise<T>,
-    config: RemoteStoreConfig = {}
-  ): RemoteStore<T, A> {
+    query: (...args: Args) => Promise<Result>,
+    config: RemoteStoreConfig,
+    isDerived: true,
+    initial: ObjectOf<Cache<Result>>
+  ): DerivedRemoteStore<Args, Result>
+
+  function createRemoteStore<Args extends unknown[], Result>(
+    name: string,
+    query: (...args: Args) => Promise<Result>,
+    config: RemoteStoreConfig,
+    isDerived: false,
+    initial: ObjectOf<Cache<Result>>
+  ): RemoteStore<Args, Result>
+
+  function createRemoteStore<Args extends unknown[], Result>(
+    name: string,
+    query: (...args: Args) => Promise<Result>,
+    config: RemoteStoreConfig,
+    isDerived: boolean,
+    initial: ObjectOf<Cache<Result>>
+  ): OptionalInitializeRemoteStore<Args, Result> {
     let cacheMs = config.cacheMs ?? defaultCacheMs
 
-    const cacheStore = store<ObjectOf<Cache<T>>>(
-      createName('cacheStore', name),
-      {},
-      {
-        clientSerialize: config.clientSerialize,
-      }
-    )
+    const cacheStore = store<ObjectOf<Cache<Result>>>(createName('cacheStore', name), initial)
 
     const promises: ObjectOf<
-      Promise<{ error: undefined; result: T } | { error: Error; result: undefined }>
+      Promise<{ error: undefined; result: Result } | { error: Error; result: undefined }>
     > = {}
 
-    const setCache = (key: string, value: Cache<T>) =>
+    const setCache = (key: string, value: Cache<Result>) =>
       cacheStore.set({
         ...cacheStore.get(),
         [key]: { ...(cacheStore.get()[key] ?? {}), ...value },
       })
 
-    const _fetchQuery = async (args: A, force?: boolean) => {
+    const _fetchQuery = async (args: Args, force?: boolean) => {
       const cacheKey = createCacheKey(args)
       let promise = promises[cacheKey]
       if (!force && cacheStore.get()[cacheKey]?.fetching && promise != null) {
@@ -180,7 +212,7 @@ export const initRemoteStore = (
       return promise
     }
 
-    const fetchQueryBase = async (arg: A, force?: boolean) => {
+    const fetchQueryBase = async (arg: Args, force?: boolean) => {
       const queryReturn = await _fetchQuery(arg, force)
       if (queryReturn.error) {
         throw queryReturn.error
@@ -188,7 +220,7 @@ export const initRemoteStore = (
       return queryReturn.result
     }
 
-    const cachedFetchQuery = async (...args: A): Promise<T> => {
+    const cachedFetchQuery = async (...args: Args): Promise<Result> => {
       const cacheKey = createCacheKey(args)
 
       const cache = cacheStore.get()[cacheKey]
@@ -208,20 +240,20 @@ export const initRemoteStore = (
       }
     }
 
-    function unpackResult(cache?: Cache<T>): { state?: T; error?: Error } {
+    function unpackResult(cache?: Cache<Result>): { state?: Result; error?: Error } {
       if (cache?.result == null) {
         return {}
       }
       return cache.result
     }
 
-    function useRemoteStoreWithGetter<R>(
-      getter: (state: T | undefined) => R,
-      ...args: A
-    ): UseRemoteStoreReturn<R> {
+    function useRemoteStoreWithGetter<SubResult>(
+      getter: (state: Result | undefined) => SubResult,
+      ...args: Args
+    ): UseRemoteStoreReturn<SubResult> {
       const cacheKey = createCacheKey(args)
       const cache = cacheStore.useStore(
-        useCallback(({ [cacheKey]: state }: ObjectOf<Cache<T>>) => state, [cacheKey])
+        useCallback(({ [cacheKey]: state }: ObjectOf<Cache<Result>>) => state, [cacheKey])
       )
       let fetching = Boolean(cache?.fetching)
       const hasBeenFetched = Boolean(cache?.result)
@@ -249,13 +281,13 @@ export const initRemoteStore = (
       }
     }
 
-    const identity = (state: T | undefined) => state
+    const identity = (state: Result | undefined) => state
 
-    function useRemoteStore(...args: A): UseRemoteStoreReturn<T | undefined> {
+    function useRemoteStore(...args: Args): UseRemoteStoreReturn<Result | undefined> {
       return useRemoteStoreWithGetter(identity, ...args)
     }
 
-    function getRemoteStore(...args: A): GetRemoteStoreReturn<T> {
+    function getRemoteStore(...args: Args): GetRemoteStoreReturn<Result> {
       const cacheKey = createCacheKey(args)
       const cache = cacheStore.get()[cacheKey]
       const { state, error } = unpackResult(cache)
@@ -266,7 +298,7 @@ export const initRemoteStore = (
       }
     }
 
-    function __mockRequestSuccess(args: unknown[], state: T, fetching = false) {
+    function __mockRequestSuccess(args: unknown[], state: Result, fetching = false) {
       const cacheKey = createCacheKey(args)
       cacheStore.__mock({
         ...cacheStore.get(),
@@ -292,37 +324,94 @@ export const initRemoteStore = (
       cacheMs = Infinity
     }
 
-    const remoteStore = {
-      fetchQuery: (...args: A) => fetchQueryBase(args, false),
-      forceFetchQuery: (...args: A) => fetchQueryBase(args, true),
+    const derivedStoreInitializers: Array<(state: FetchedState<Args, Result>[]) => void> = []
+
+    const initialize = (initialState: FetchedState<Args, Result>[]) => {
+      const now = Date.now()
+      cacheStore[INITIALIZE_SYMBOL](
+        Object.fromEntries(
+          initialState.map<[string, Cache<Result>]>(({ args, result }) => [
+            createCacheKey(args),
+            {
+              fetching: false,
+              lastFetched: now,
+              result: {
+                state: result,
+              },
+            },
+          ])
+        )
+      )
+      for (const initializer of derivedStoreInitializers) {
+        initializer(initialState)
+      }
+    }
+
+    const remoteStore: OptionalInitializeRemoteStore<Args, Result> = {
+      fetchQuery: (...args: Args) => fetchQueryBase(args, false),
+      forceFetchQuery: (...args: Args) => fetchQueryBase(args, true),
       cachedFetchQuery,
       getRemoteStore,
       useRemoteStore,
       useRemoteStoreWithGetter,
-      createDerivedRemoteStore: <NT>(
+      createDerivedRemoteStore: <TransformedResult>(
         derivedName: string,
-        transform: (newState: T) => NT | Promise<NT>,
-        derivedConfig: Omit<RemoteStoreConfig, 'cacheMs'> = {}
+        transform: (newState: Result) => TransformedResult
       ) => {
-        return Object.assign(
+        const derivedStore: DerivedRemoteStore<Args, TransformedResult> = Object.assign(
           createRemoteStore(
             `${derivedName}(${name})`,
-            async (...args: A) => {
+            async (...args: Args): Promise<TransformedResult> => {
               const state = await cachedFetchQuery(...args)
-              return await transform(state)
+              return transform(state)
             },
-            { cacheMs, ...derivedConfig }
+            { cacheMs },
+            true,
+            Object.fromEntries(
+              Object.entries(cacheStore.get()).map(([key, value]) => {
+                let result: Cache<TransformedResult>['result']
+                if (value.result) {
+                  if ('error' in value.result) {
+                    result = value.result
+                  } else {
+                    result = { state: transform(value.result.state) }
+                  }
+                }
+                return [
+                  key,
+                  {
+                    ...value,
+                    result,
+                  },
+                ]
+              })
+            )
           ),
           { parent: remoteStore }
         )
+        derivedStoreInitializers.push((state) =>
+          derivedStore[INITIALIZE_SYMBOL](
+            state.map(({ args, result }) => ({ args, result: transform(result) }))
+          )
+        )
+        return derivedStore
       },
+      [INITIALIZE_SYMBOL]: initialize,
       __mockRequestSuccess,
       __mockRequestFailure,
     }
+
+    if (!isDerived) {
+      remoteStore.initialize = initialize
+    }
+
     return remoteStore
   }
 
-  function useUnwrap<T extends { error?: Error }>({ error, ...rest }: T): Omit<T, 'error'> {
+  function useUnwrap<Result, Return extends GetRemoteStoreReturn<Result>>({
+    error,
+    ...rest
+  }: Return): Omit<Return, 'error'> {
     const errorRef = useRef<Error | undefined>()
     const prevError = errorRef.current
     errorRef.current = error
@@ -334,6 +423,10 @@ export const initRemoteStore = (
 
   return {
     useUnwrap,
-    createRemoteStore,
+    createRemoteStore: <Args extends unknown[], Result>(
+      name: string,
+      query: (...args: Args) => Promise<Result>,
+      config: RemoteStoreConfig = {}
+    ) => createRemoteStore(name, query, config, false, {}),
   }
 }

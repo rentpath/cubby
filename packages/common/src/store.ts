@@ -1,73 +1,63 @@
-export interface Store<T> {
-  createAction<A extends unknown[], R>(
-    cb: (set: (newState: T) => T, get: () => T, ...args: [...A]) => R
-  ): (...args: [...A]) => R
-  useStore<F extends (state: T) => unknown = (state: T) => T>(getter?: F): ReturnType<F>
-  createDerivedStore<R>(
-    name: string,
-    transform: (state: T) => R,
-    config?: Config
-  ): Omit<Store<R>, 'set'> & { parent: Store<T> }
-  subscribe(fn: (state: T) => void): () => void
-  set(newState: T): T
-  get(): T
-  __mock(mockState: T): void
+export const INITIALIZE_SYMBOL = Symbol('initialize')
+
+type OptionalInitializeStore<State> = Omit<Store<State>, 'initialize'> &
+  Partial<Pick<Store<State>, 'initialize'>>
+
+type DerivedStore<TransformedState> = Omit<Store<TransformedState>, 'initialize'> & {
+  parent: OptionalInitializeStore<TransformedState>
 }
 
-export type Config = {
-  clientSerialize?: boolean
+export interface Store<State> {
+  createAction<Args extends unknown[], Return>(
+    cb: (set: (newState: State) => State, get: () => State, ...args: [...Args]) => Return
+  ): (...args: [...Args]) => Return
+  useStore<Getter extends (state: State) => unknown = (state: State) => State>(
+    getter?: Getter
+  ): ReturnType<Getter>
+  createDerivedStore<TransformedState>(
+    name: string,
+    transform: (state: State) => TransformedState
+  ): DerivedStore<TransformedState>
+  subscribe(fn: (state: State) => void): () => void
+  set(newState: State): State
+  get(): State
+  initialize: (initial: State) => void
+  [INITIALIZE_SYMBOL]: (initial: State) => void
+  __mock(mockState: State): void
 }
 
 export const initStore = (
-  h: <Children, Return>(
-    type: string,
-    props: Record<string, any>,
-    ...children: Children[]
-  ) => Return,
   useEffect: (cb: () => () => any | void, inputs: readonly unknown[]) => void,
-  useState: <S>(initialState: S | (() => S)) => [S, (value: S | ((prevState: S) => S)) => void],
-  useRef: <I>(initialValue?: I | null | undefined) => { current: I }
+  useState: <State>(
+    initialState: State | (() => State)
+  ) => [State, (value: State | ((prevState: State) => State)) => void],
+  useRef: <Initial>(initialValue?: Initial | null | undefined) => { current: Initial }
 ) => {
-  const storeCacheKey = '__CUBBY_STORE_CACHE__'
-  let cache: Record<string, { state: unknown }> = (typeof document !== 'undefined'
-    ? JSON.parse(document.getElementById(storeCacheKey)?.innerHTML || '{}')
-    : {}) as Record<string, { state: unknown }>
-  const clientSerializeIds = new Set<string>()
   const resetCallbackMap = new Map<string, () => void>()
 
-  let isClient: boolean = typeof window !== 'undefined'
+  function createStore<State>(name: string, initial: State, __isDerived?: false): Store<State>
 
-  function createStore<T>(name: string, initial: T, config: Config = {}): Store<T> {
-    const { clientSerialize } = config
-    if (clientSerialize) {
-      if (clientSerializeIds.has(name)) {
-        throw new Error(`store with name ${name} redefined`)
-      } else {
-        clientSerializeIds.add(name)
-      }
-    }
-    let storeState: T = initial
+  function createStore<TransformedState>(
+    name: string,
+    initial: TransformedState,
+    __isDerived?: true
+  ): DerivedStore<TransformedState>
+
+  function createStore<State>(
+    name: string,
+    initial: State,
+    __isDerived = false
+  ): OptionalInitializeStore<State> {
+    let storeState: State = initial
 
     resetCallbackMap.set(name, () => {
       storeState = initial
     })
 
-    if (isClient && clientSerialize && cache[name] != null) {
-      const cacheState = cache[name] as { state: T }
-      storeState = cacheState.state
-    }
+    let listeners: ReadonlyArray<(state: State) => void> = []
 
-    if (!isClient && clientSerialize) {
-      cache[name] = { state: storeState }
-    }
-
-    let listeners: ReadonlyArray<(state: T) => void> = []
-
-    function _set(newState: T): T {
+    function _set(newState: State): State {
       storeState = newState
-      if (!isClient && clientSerialize) {
-        cache[name] = { state: storeState }
-      }
       for (const listener of listeners) {
         listener(storeState)
       }
@@ -78,7 +68,7 @@ export const initStore = (
       return storeState
     }
 
-    const subscribe = (fn: (state: T) => void): (() => void) => {
+    const subscribe = (fn: (state: State) => void): (() => void) => {
       if (!listeners.includes(fn)) {
         listeners = [...listeners, fn]
       }
@@ -87,24 +77,24 @@ export const initStore = (
       }
     }
 
-    const createAction = <A extends unknown[], R>(
-      cb: (set: typeof _set, get: typeof _get, ...args: [...A]) => R
-    ) => (...args: [...A]): R => cb(_set, _get, ...args)
+    const createAction = <Args extends unknown[], Return>(
+      cb: (set: typeof _set, get: typeof _get, ...args: [...Args]) => Return
+    ) => (...args: [...Args]): Return => cb(_set, _get, ...args)
 
-    function useStore(): T
-    function useStore<R>(getter: (state: T) => R): R
-    function useStore<R>(getter?: (state: T) => R): R | T {
+    function useStore(): State
+    function useStore<Return>(getter: (state: State) => Return): Return
+    function useStore<Return>(getter?: (state: State) => Return): Return | State {
       // we only use the state to trigger a rerender.
       // we derive the actual return from the storeState
       const [, setState] = useState(0)
-      const sliceRef = useRef<R | T>()
-      const getterRef = useRef<((state: T) => R) | undefined>()
+      const sliceRef = useRef<Return | State>()
+      const getterRef = useRef<((state: State) => Return) | undefined>()
       getterRef.current = getter
       sliceRef.current = getterRef.current ? getterRef.current(storeState) : storeState
 
       useEffect(() => {
         // Just an easy way to subscribe only once for each hook
-        const cb = (newState: T) => {
+        const cb = (newState: State) => {
           const slice = getterRef.current ? getterRef.current(newState) : newState
           if (slice !== sliceRef.current) {
             sliceRef.current = slice
@@ -117,75 +107,78 @@ export const initStore = (
       return sliceRef.current
     }
 
-    function __mock(mockState: T) {
+    function __mock(mockState: State) {
       storeState = mockState
     }
 
-    const store = {
+    const derivedStoreInitializers: Array<(state: State) => void> = []
+
+    const initialize = (initialState: State) => {
+      storeState = initialState
+      initial = initialState
+      for (const initializer of derivedStoreInitializers) {
+        initializer(initialState)
+      }
+    }
+
+    const store: OptionalInitializeStore<State> = {
       createAction,
       useStore,
-      createDerivedStore<R>(
+      createDerivedStore<TransformedState>(
         derivedName: string,
-        transform: (state: T) => R,
-        derivedConfig: Config = {}
-      ): Omit<Store<R>, 'set'> & { parent: Store<T> } {
+        transform: (state: State) => TransformedState
+      ): DerivedStore<TransformedState> {
         const initialState = transform(storeState)
-        const newStore = Object.assign(
-          createStore(`${derivedName}(${name})`, initialState, derivedConfig),
-          { parent: store }
+        const derivedStore = Object.assign(
+          createStore(`${derivedName}(${name})`, initialState, true),
+          {
+            parent: store,
+          }
         )
         // ignore return value, will never be unsubscribed, new store will not be garbage collected
         // until root store and all derived stores are released
-        subscribe((state) => newStore.set(transform(state)))
-        return newStore
+        subscribe((state) => derivedStore.set(transform(state)))
+
+        derivedStoreInitializers.push((state) => derivedStore[INITIALIZE_SYMBOL](transform(state)))
+
+        return derivedStore
       },
       subscribe,
-      set: createAction((set, _, newState: T) => set(newState)),
+      set: createAction((set, _, newState: State) => set(newState)),
       get: _get,
+      [INITIALIZE_SYMBOL]: initialize,
       __mock,
     }
+
+    if (!__isDerived) {
+      store.initialize = initialize
+    }
+
     return store
-  }
-
-  const StoreCacheScript = () => {
-    return h('script', {
-      id: storeCacheKey,
-      'data-tid': storeCacheKey,
-      type: 'application/json',
-      crossOrigin: 'anonymous',
-      dangerouslySetInnerHTML: {
-        __html: JSON.stringify(cache),
-      },
-    })
-  }
-
-  const clearClientSerializeIdsCache = (): void => {
-    clientSerializeIds.clear()
   }
 
   const resetStores = () => resetCallbackMap.forEach((cb) => cb())
 
-  const __getClientSerializeIdsCache = () => new Set(clientSerializeIds)
-
-  const __mockIsClient__ = (mockIsClient: boolean) => {
-    isClient = mockIsClient
+  const useCubbyInitialize = <
+    S extends Record<string, { initialize: (init: any) => void }>,
+    I extends { [K in keyof S]: Parameters<S[K]['initialize']>[0] }
+  >(
+    stores: S,
+    initialData: I
+  ): void => {
+    const hasInitialized = useRef(false)
+    if (!hasInitialized.current) {
+      hasInitialized.current = true
+      for (const key of Object.keys(stores)) {
+        stores[key]?.initialize(initialData[key])
+      }
+    }
   }
-
-  const __mockCache__ = (mockCache: Record<string, { state: unknown }>) => {
-    cache = mockCache
-  }
-
-  const __getCache__ = () => cache
 
   return {
-    storeCacheKey,
-    createStore,
-    StoreCacheScript,
-    clearClientSerializeIdsCache,
+    createStore: <State>(name: string, initial: State): Store<State> =>
+      createStore(name, initial, false),
     resetStores,
-    __getClientSerializeIdsCache,
-    __mockIsClient__,
-    __mockCache__,
-    __getCache__,
+    useCubbyInitialize,
   }
 }
