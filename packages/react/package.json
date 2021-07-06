@@ -1,6 +1,6 @@
 {
   "name": "@cubbyjs/react",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "author": "RentPath",
   "license": "MIT",
   "private": false,
@@ -18,7 +18,7 @@
     "test:watch": "yarn run test --watch"
   },
   "dependencies": {
-    "@cubbyjs/common": "0.3.2"
+    "@cubbyjs/common": "0.3.3"
   },
   "peerDependencies": {
     "react": "*"
