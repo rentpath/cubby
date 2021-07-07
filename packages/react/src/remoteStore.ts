@@ -13,3 +13,4 @@ const remoteStore = initRemoteStore(createStore, React.useCallback, React.useRef
 
 export const createRemoteStore = remoteStore.createRemoteStore
 export const useUnwrap = remoteStore.useUnwrap
+export const __mockIsClient__ = remoteStore.__mockIsClient__
