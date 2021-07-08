@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import React, { ComponentType, useEffect, useRef, useState } from 'react'
 import { INITIALIZE_SYMBOL } from './const'
 import { omitKey } from './util'
 
@@ -131,18 +131,45 @@ export function createStore<State>(name: string, initial: State): Store<State> {
 
 export const resetStores = () => resetCallbackMap.forEach((cb) => cb())
 
+export type InitialState<Stores extends Record<string, { initialize: (init: any) => void }>> = {
+  [Key in keyof Stores]: Parameters<Stores[Key]['initialize']>[0]
+}
+
 export const useCubbyInitialize = <
-  S extends Record<string, { initialize: (init: any) => void }>,
-  I extends { [K in keyof S]: Parameters<S[K]['initialize']>[0] }
+  Stores extends Record<string, { initialize: (init: any) => void }>
 >(
-  stores: S,
-  initialData: I
+  stores: Stores,
+  initialState: InitialState<Stores>
 ): void => {
-  const hasInitialized = useRef(false)
-  if (!hasInitialized.current) {
-    hasInitialized.current = true
+  const lastProps = useRef<InitialState<Stores>>()
+  if (initialState !== lastProps.current) {
     for (const key of Object.keys(stores)) {
-      stores[key]?.initialize(initialData[key])
+      stores[key]?.initialize(initialState[key])
     }
+  }
+
+  lastProps.current = initialState
+}
+
+export type WithCubbyState<
+  Props,
+  Stores extends Record<string, { initialize: (init: any) => void }>
+> = Props & {
+  cubbyState: InitialState<Stores>
+}
+
+export function withCubby<
+  Props extends {
+    cubbyState: any
+  }
+>(
+  stores: {
+    [K in keyof Props['cubbyState']]: { initialize: (init: Props['cubbyState'][K]) => void }
+  },
+  Root: React.ComponentType<Omit<Props, 'cubbyState'>>
+): React.ComponentType<Props> {
+  return function CubbyRoot(props) {
+    useCubbyInitialize(stores, props.cubbyState)
+    return <Root {...props} />
   }
 }
