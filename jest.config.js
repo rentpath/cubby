@@ -6,7 +6,7 @@ module.exports = {
       diagnostics: false,
     },
   },
-  roots: ['<rootDir>/packages'],
+  projects: ['<rootDir>/packages'],
   testMatch: ['**/*.test.ts?(x)'],
   testPathIgnorePatterns: ['<rootDir>/node_modules/'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
@@ -39,6 +39,5 @@ module.exports = {
       lines: 70,
       statements: 70,
     },
-
   },
 }

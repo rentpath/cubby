@@ -138,6 +138,8 @@ export const initRemoteStore = (
     initialValue?: InitialValue | null | undefined
   ) => { current: InitialValue }
 ) => {
+  let isClient: boolean = typeof window !== 'undefined'
+
   function createRemoteStore<Args extends unknown[], Result>(
     name: string,
     query: (...args: Args) => Promise<Result>,
@@ -267,7 +269,10 @@ export const initRemoteStore = (
       const shouldFetch = !fetching && (!hasBeenFetched || (hasBeenFetched && cacheIsExpired))
 
       if (shouldFetch) {
-        void _fetchQuery(args)
+        if (isClient) {
+          // do not actually fetch on the server
+          void _fetchQuery(args)
+        }
         fetching = true
       }
 
@@ -276,7 +281,10 @@ export const initRemoteStore = (
         fetching,
         error,
         refetch() {
-          void _fetchQuery(args, true)
+          if (isClient) {
+            // do not actually fetch on the server
+            void _fetchQuery(args, true)
+          }
         },
       }
     }
@@ -421,6 +429,10 @@ export const initRemoteStore = (
     return rest
   }
 
+  const __mockIsClient__ = (mockIsClient: boolean) => {
+    isClient = mockIsClient
+  }
+
   return {
     useUnwrap,
     createRemoteStore: <Args extends unknown[], Result>(
@@ -428,5 +440,6 @@ export const initRemoteStore = (
       query: (...args: Args) => Promise<Result>,
       config: RemoteStoreConfig = {}
     ) => createRemoteStore(name, query, config, false, {}),
+    __mockIsClient__,
   }
 }

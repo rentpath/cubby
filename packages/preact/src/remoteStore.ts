@@ -7,3 +7,4 @@ const remoteStore = initRemoteStore(createStore, useCallback, useRef)
 
 export const createRemoteStore = remoteStore.createRemoteStore
 export const useUnwrap = remoteStore.useUnwrap
+export const __mockIsClient__ = remoteStore.__mockIsClient__
