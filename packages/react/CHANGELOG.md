@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.3.6 (2021-07-20)
+
+**Note:** Version bump only for package @cubbyjs/react
+
+
+
+
+
 ## 0.3.5 (2021-07-08)
 
 **Note:** Version bump only for package @cubbyjs/react
