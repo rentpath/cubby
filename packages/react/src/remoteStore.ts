@@ -27,6 +27,7 @@ export interface FetchedState<Args, Result> {
 }
 
 export interface RemoteStore<Args extends unknown[], Result> {
+  query: (...args: Args) => Promise<Result>
   fetchQuery: (...args: Args) => Promise<Result>
   forceFetchQuery: (...args: Args) => Promise<Result>
   cachedFetchQuery: (...args: Args) => Promise<Result>
@@ -251,6 +252,7 @@ export function createRemoteStore<Args extends unknown[], Result>(
   }
 
   const remoteStore: RemoteStore<Args, Result> = {
+    query,
     fetchQuery: (...args: Args) => fetchQueryBase(args, false),
     forceFetchQuery: (...args: Args) => fetchQueryBase(args, true),
     cachedFetchQuery,
