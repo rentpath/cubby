@@ -1,0 +1,13 @@
+query Listing($id: Int!) {
+  listing(id: $id) {
+    id
+    address
+    name
+    floorplans {
+      id
+      baths
+      beds
+      sqft
+    }
+  }
+}

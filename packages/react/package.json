@@ -15,7 +15,9 @@
     "build:watch": "concurrently --names 'cjs,es' 'yarn build:cjs -w' 'yarn build:es -w'",
     "test": "yarn jest",
     "test:coverage": "yarn jest --coverage",
-    "test:watch": "yarn run test --watch"
+    "test:watch": "yarn run test --watch",
+    "lint:ts": "yarn lint:ts:ci --fix",
+    "lint:ts:ci": "eslint --cache"
   },
   "peerDependencies": {
     "react": "*"
