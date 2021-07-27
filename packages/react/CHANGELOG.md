@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.4.0 (2021-07-27)
+
+
+### Features
+
+* **cubbyjs:** withCubby HOC for initializing cubby stores ([ae78451](https://github.com/rentpath/cubby/commit/ae78451577a002b0e7080c6b4f3467341c0482fb))
+
+
+
+
+
 ## 0.3.6 (2021-07-20)
 
 **Note:** Version bump only for package @cubbyjs/react
