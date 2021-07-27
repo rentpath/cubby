@@ -204,10 +204,18 @@ export function createRemoteStore<Args extends unknown[], Result>(
     const cacheKey = createCacheKey(args)
     const cache = cacheStore.get()[cacheKey]
     const { state, error } = unpackResult(cache)
+    let fetching = Boolean(cache?.fetching)
+    if (!isClient) {
+      // if we are on the server we should always report that we are fetching the args
+      // have not been prefetched we dont have the data
+      if (cache == null) {
+        fetching = true
+      }
+    }
     return {
       result: state,
       error: error,
-      fetching: Boolean(cache?.fetching),
+      fetching,
     }
   }
 
