@@ -1,7 +1,6 @@
 import { useCallback, useRef } from 'react'
-import { INITIALIZE_SYMBOL } from './const'
-import { createStore, Store } from './store'
-import { getSortedEntries, omitKey } from './util'
+import { createStore } from './store'
+import { getSortedEntries } from './util'
 
 export interface RemoteStoreConfig {
   cacheMs?: number
@@ -27,7 +26,6 @@ export interface FetchedState<Args, Result> {
   result: Result
 }
 
-const CACHE_STORE = Symbol('cacheStore')
 export interface RemoteStore<Args extends unknown[], Result> {
   fetchQuery: (...args: Args) => Promise<Result>
   forceFetchQuery: (...args: Args) => Promise<Result>
@@ -38,21 +36,10 @@ export interface RemoteStore<Args extends unknown[], Result> {
     getter: (state: Result | undefined) => SubResult,
     ...args: Args
   ) => UseRemoteStoreReturn<SubResult>
-  createDerivedRemoteStore: <TransformedResult>(
-    derivedName: string,
-    transform: (newState: Result) => TransformedResult
-  ) => DerivedRemoteStore<Args, TransformedResult>
   initialize: (initial: FetchedState<Args, Result>[]) => void
-  [INITIALIZE_SYMBOL]: (initial: FetchedState<Args, Result>[]) => void
-  [CACHE_STORE]: Store<Record<string, Cache<Result>>>
   __mockRequestSuccess: (arg: Args, state: Result, fetching?: boolean) => void
   __mockRequestFailure: (arg: Args, error: Error, fetching?: boolean) => void
 }
-
-export type DerivedRemoteStore<Args extends unknown[], TransformedResult> = Omit<
-  RemoteStore<Args, TransformedResult>,
-  'initialize'
->
 
 interface Cache<Result> {
   result?: { state: Result } | { error: Error }
@@ -245,11 +232,9 @@ export function createRemoteStore<Args extends unknown[], Result>(
     cacheMs = Infinity
   }
 
-  const derivedStoreInitializers: Array<(state: FetchedState<Args, Result>[]) => void> = []
-
   const initialize = (initialState: FetchedState<Args, Result>[]) => {
     const now = Date.now()
-    cacheStore[INITIALIZE_SYMBOL](
+    cacheStore.initialize(
       Object.fromEntries(
         initialState.map<[string, Cache<Result>]>(({ args, result }) => [
           createCacheKey(args),
@@ -263,9 +248,6 @@ export function createRemoteStore<Args extends unknown[], Result>(
         ])
       )
     )
-    for (const initializer of derivedStoreInitializers) {
-      initializer(initialState)
-    }
   }
 
   const remoteStore: RemoteStore<Args, Result> = {
@@ -275,54 +257,7 @@ export function createRemoteStore<Args extends unknown[], Result>(
     getRemoteStore,
     useRemoteStore,
     useRemoteStoreWithGetter,
-    createDerivedRemoteStore: <TransformedResult>(
-      derivedName: string,
-      transform: (newState: Result) => TransformedResult
-    ): DerivedRemoteStore<Args, TransformedResult> => {
-      const derivedStore: DerivedRemoteStore<Args, TransformedResult> = omitKey(
-        createRemoteStore(
-          `${derivedName}(${name})`,
-          async (...args: Args): Promise<TransformedResult> => {
-            const state = await cachedFetchQuery(...args)
-            return transform(state)
-          },
-          { cacheMs }
-        ),
-        'initialize'
-      )
-
-      derivedStore[CACHE_STORE].initialize(
-        Object.fromEntries(
-          Object.entries(cacheStore.get()).map(([key, value]) => {
-            let result: Cache<TransformedResult>['result']
-            if (value.result) {
-              if ('error' in value.result) {
-                result = value.result
-              } else {
-                result = { state: transform(value.result.state) }
-              }
-            }
-            return [
-              key,
-              {
-                ...value,
-                result,
-              },
-            ]
-          })
-        )
-      )
-
-      derivedStoreInitializers.push((state) =>
-        derivedStore[INITIALIZE_SYMBOL](
-          state.map(({ args, result }) => ({ args, result: transform(result) }))
-        )
-      )
-      return derivedStore
-    },
     initialize,
-    [INITIALIZE_SYMBOL]: initialize,
-    [CACHE_STORE]: cacheStore,
     __mockRequestSuccess,
     __mockRequestFailure,
   }

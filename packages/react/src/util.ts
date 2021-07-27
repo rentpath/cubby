@@ -59,8 +59,3 @@ export const getSortedEntries = (
   }
 }
 
-export const omitKey = <T, K extends keyof T>(obj: T, key: K): Omit<T, K> => {
-  const omitted = { ...obj } as Partial<Pick<T, K>> & Omit<T, K>
-  delete omitted[key]
-  return omitted
-}
