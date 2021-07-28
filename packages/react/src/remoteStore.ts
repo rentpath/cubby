@@ -8,14 +8,25 @@ export interface RemoteStoreConfig {
 
 const defaultCacheMs = 5000
 
+/**
+ * The current state of a fetch.
+ *
+ * @remarks
+ * This object will correspond to the state for a unique set of arguments,
+ * not the whole remote store.
+ */
 export interface GetRemoteStoreReturn<Result> {
+  /**
+   * The result of the fetch. Will be `undefined` if the store has never
+   * completed the fetch, or if the fetch has never been initiated.
+   */
   result?: Result
   fetching: boolean
   error?: Error
 }
 
 export interface UseRemoteStoreReturn<Result> extends GetRemoteStoreReturn<Result> {
-  refetch: () => void
+  refetch(): void
 }
 
 const createCacheKey = (vals: unknown[]): string =>
@@ -27,18 +38,18 @@ export interface FetchedState<Args, Result> {
 }
 
 export interface RemoteStore<Args extends unknown[], Result> {
-  fetchQuery: (...args: Args) => Promise<Result>
-  forceFetchQuery: (...args: Args) => Promise<Result>
-  cachedFetchQuery: (...args: Args) => Promise<Result>
-  getRemoteStore: (...args: Args) => GetRemoteStoreReturn<Result>
-  useRemoteStore: (...args: Args) => UseRemoteStoreReturn<Result | undefined>
-  useRemoteStoreWithGetter: <SubResult>(
+  fetchQuery(...args: Args): Promise<Result>
+  forceFetchQuery(...args: Args): Promise<Result>
+  cachedFetchQuery(...args: Args): Promise<Result>
+  getRemoteStore(...args: Args): GetRemoteStoreReturn<Result>
+  useRemoteStore(...args: Args): UseRemoteStoreReturn<Result | undefined>
+  useRemoteStoreWithGetter<SubResult>(
     getter: (state: Result | undefined) => SubResult,
     ...args: Args
-  ) => UseRemoteStoreReturn<SubResult>
-  initialize: (initial: FetchedState<Args, Result>[]) => void
-  __mockRequestSuccess: (arg: Args, state: Result, fetching?: boolean) => void
-  __mockRequestFailure: (arg: Args, error: Error, fetching?: boolean) => void
+  ): UseRemoteStoreReturn<SubResult>
+  initialize(initial: FetchedState<Args, Result>[]): void
+  __mockRequestSuccess(arg: Args, state: Result, fetching?: boolean): void
+  __mockRequestFailure(arg: Args, error: Error, fetching?: boolean): void
 }
 
 interface Cache<Result> {
@@ -278,6 +289,6 @@ export function useUnwrap<Result, Return extends GetRemoteStoreReturn<Result>>({
   return rest
 }
 
-export const __mockIsClient__ = (mockIsClient: boolean) => {
+export function __mockIsClient__(mockIsClient: boolean) {
   isClient = mockIsClient
 }

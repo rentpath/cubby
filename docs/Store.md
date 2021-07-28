@@ -5,7 +5,6 @@
 - [Creating](#create)
 - [Consuming](#consume)
 - [Updating](#update)
-- [SSR Considerations](#ssr)
 
 ## <a id="create">Creating a Store</a>
 
@@ -121,37 +120,3 @@ export const greet = aSimpleStore.createAction(function (set, getCurrent, name: 
 ```
 
 The arguments are variadic, so if you need more arguments simply add them to the callback. Make sure they're typed, though!
-
-## <a id="ssr">SSR - Crossing the Server Threshold</a>
-
-A store can transfer its state on the server seamlessly to the client. To do this however, we need to enable
-client serialization when we define the store:
-
-```ts
-// We pass the ID in an optional second argument
-export const aSimpleStore = store<StoreType>('myStore', initialState, {
-  clientSerialize: true,
-})
-```
-
-By including this flag, our store will be automatically serialized and attached to the `window` and unseralized +
-initialized on the client. This allows us to initialize store using server-side values.
-
-Generally this will be done in the NextJS lifecycle methods, like `getServerSideProps`.
-
-```ts
-export const getServerSideProps: GetServerSideProps = withPageware(async (context) => {
-  aSimpleStore.set({
-    ...aSimpleStore.get(),
-    foo: 'Hello from the server!',
-  })
-})
-```
-
-When the page renders, the serialized state of the store will be attached to the window, and will intelligently
-rehydrate itself on the client. When React consumes our store, `aSimpleStore.get().foo` will be "Hello
-from the server!"
-
-**If you do not include the `clientSerialize` flag, this hydration will not happen** and no matter how hard you
-try to set a value in a store on the server, the client won't see it.
-

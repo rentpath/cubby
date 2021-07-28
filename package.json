@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "lerna run build",
+    "build": "lerna run build && api-documenter markdown -i temp -o docs/api",
     "clean": "lerna run clean",
     "commit": "cz",
     "commit:lint": "commitlint -f $(git log origin/main --oneline --pretty=%h | head -n 1) -t $(git rev-parse --short HEAD) --verbose",
@@ -22,6 +22,7 @@
   "devDependencies": {
     "@commitlint/cli": "^12.0.1",
     "@commitlint/config-conventional": "^12.0.1",
+    "@microsoft/api-documenter": "^7.13.33",
     "@testing-library/dom": "^7.30.1",
     "@testing-library/jest-dom": "^5.11.10",
     "@types/jest": "^26.0.22",

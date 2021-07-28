@@ -5,8 +5,6 @@
 - [Creating](#create)
 - [Consuming](#consume)
 - [Updating](#update)
-- [SSR Considerations](#ssr)
-
 ## Foreward
 
 Remote stores are an abstraction over the top of normal stores. Please read the documentation on
@@ -161,38 +159,3 @@ export default function ExampleDataSet() {
 Note that no debouncing is occuring and whenever the arguments change the hook may call the query function even if the promise is still
 pending from the previous set of arguments. Make sure you dont accedentally fire off a query on every keypress! (Unless you want to do that
 for some weird reason)
-
-- [SSR Considerations](#ssr)
-
-Just like with any hook, `useRemoteStore` will be called whenever a component is rendered, regardless of if that happens
-on the server or the client. However, because SSR only renders a single pass of your component tree and can not wait for async operations that
-happen in components, and because we don't define an initial state with a remote store, you **must** fetch the query initially
-when rendering a component server side that uses the remote store. If you don't then rendered component will get no data and `fetching === true`.
-You can do this using `fetchQuery` as outlined above.
-
-In Next.js you can do this in `getServerSideProps`:
-
-```ts
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  await aSimpleRemoteStore.fetchQuery('initialArg', 5)
-}
-```
-
-Just like a normal store, adding a `clientSerialize = true` flag in the options when creating a remote store allows
-sending the contents of that store in the response payload, but only if the query is fetched before the tree is SSR'd:
-
-```ts
-export const aSimpleRemoteStore = remoteStore<StoreType, [string, number]>(
-  'myRemoteData',
-  async function query(stringArg, numberArg) {
-    const raw = await someAsyncOperation(stringArg,  numberArg + 1)
-    return raw.result
-  },
-  {
-    clientSerialize: true,
-  }
-)
-```
-
-Note that you don't necessarily need to do anything with the data after you fetch it; it will be cached internally
-and sent to the client wether you use the returned value or not.

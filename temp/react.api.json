@@ -1,0 +1,2094 @@
+{
+  "metadata": {
+    "toolPackage": "@microsoft/api-extractor",
+    "toolVersion": "7.18.4",
+    "schemaVersion": 1004,
+    "oldestForwardsCompatibleVersion": 1001,
+    "tsdocConfig": {
+      "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
+      "noStandardTags": true,
+      "tagDefinitions": [
+        {
+          "tagName": "@alpha",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@beta",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@defaultValue",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@decorator",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@deprecated",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@eventProperty",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@example",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@experimental",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@inheritDoc",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@internal",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@label",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@link",
+          "syntaxKind": "inline",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@override",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@packageDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@param",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@privateRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@public",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@readonly",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@remarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@returns",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@sealed",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@see",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@throws",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@typeParam",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@virtual",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@betaDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@internalRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@preapproved",
+          "syntaxKind": "modifier"
+        }
+      ],
+      "supportForTags": {
+        "@alpha": true,
+        "@beta": true,
+        "@defaultValue": true,
+        "@decorator": true,
+        "@deprecated": true,
+        "@eventProperty": true,
+        "@example": true,
+        "@experimental": true,
+        "@inheritDoc": true,
+        "@internal": true,
+        "@label": true,
+        "@link": true,
+        "@override": true,
+        "@packageDocumentation": true,
+        "@param": true,
+        "@privateRemarks": true,
+        "@public": true,
+        "@readonly": true,
+        "@remarks": true,
+        "@returns": true,
+        "@sealed": true,
+        "@see": true,
+        "@throws": true,
+        "@typeParam": true,
+        "@virtual": true,
+        "@betaDocumentation": true,
+        "@internalRemarks": true,
+        "@preapproved": true
+      }
+    }
+  },
+  "kind": "Package",
+  "canonicalReference": "@cubbyjs/react!",
+  "docComment": "",
+  "name": "@cubbyjs/react",
+  "members": [
+    {
+      "kind": "EntryPoint",
+      "canonicalReference": "@cubbyjs/react!",
+      "name": "",
+      "members": [
+        {
+          "kind": "Function",
+          "canonicalReference": "@cubbyjs/react!__mockIsClient__:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function __mockIsClient__(mockIsClient: "
+            },
+            {
+              "kind": "Content",
+              "text": "boolean"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "void"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 4
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "mockIsClient",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "name": "__mockIsClient__"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@cubbyjs/react!createRemoteStore:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function createRemoteStore<Args extends "
+            },
+            {
+              "kind": "Content",
+              "text": "unknown[]"
+            },
+            {
+              "kind": "Content",
+              "text": ", Result>(name: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": ", query: "
+            },
+            {
+              "kind": "Content",
+              "text": "(...args: Args) => "
+            },
+            {
+              "kind": "Reference",
+              "text": "Promise",
+              "canonicalReference": "!Promise:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<Result>"
+            },
+            {
+              "kind": "Content",
+              "text": ", config?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "RemoteStoreConfig",
+              "canonicalReference": "@cubbyjs/react!RemoteStoreConfig:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "RemoteStore",
+              "canonicalReference": "@cubbyjs/react!RemoteStore:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<Args, Result>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 11,
+            "endIndex": 13
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "name",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              }
+            },
+            {
+              "parameterName": "query",
+              "parameterTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 8
+              }
+            },
+            {
+              "parameterName": "config",
+              "parameterTypeTokenRange": {
+                "startIndex": 9,
+                "endIndex": 10
+              }
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "Args",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            },
+            {
+              "typeParameterName": "Result",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "createRemoteStore"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@cubbyjs/react!createStore:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function createStore<State>(name: "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": ", initial: "
+            },
+            {
+              "kind": "Content",
+              "text": "State"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "Store",
+              "canonicalReference": "@cubbyjs/react!Store:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<State>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 5,
+            "endIndex": 7
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "name",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "parameterName": "initial",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              }
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "State",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "createStore"
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@cubbyjs/react!FetchedState:interface",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface FetchedState<Args, Result> "
+            }
+          ],
+          "releaseTag": "Public",
+          "typeParameters": [
+            {
+              "typeParameterName": "Args",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            },
+            {
+              "typeParameterName": "Result",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "FetchedState",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cubbyjs/react!FetchedState#args:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "args: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "Args"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "args",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cubbyjs/react!FetchedState#result:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "result: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "Result"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "result",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@cubbyjs/react!GetRemoteStoreReturn:interface",
+          "docComment": "/**\n * The current state of a fetch.\n *\n * @remarks\n *\n * This object will correspond to the state for a unique set of arguments, not the whole remote store.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface GetRemoteStoreReturn<Result> "
+            }
+          ],
+          "releaseTag": "Public",
+          "typeParameters": [
+            {
+              "typeParameterName": "Result",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "GetRemoteStoreReturn",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cubbyjs/react!GetRemoteStoreReturn#error:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "error?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Error",
+                  "canonicalReference": "!Error:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "error",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cubbyjs/react!GetRemoteStoreReturn#fetching:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "fetching: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "fetching",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cubbyjs/react!GetRemoteStoreReturn#result:member",
+              "docComment": "/**\n * The result of the fetch. Will be `undefined` if the store has never completed the fetch, or if the fetch has never been initiated.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "result?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "Result"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "result",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cubbyjs/react!InitialState:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare type InitialState<Stores extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "Record",
+              "canonicalReference": "!Record:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<string, {\n    initialize: (init: any) => void;\n}>"
+            },
+            {
+              "kind": "Content",
+              "text": "> = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    [Key in keyof Stores]: "
+            },
+            {
+              "kind": "Reference",
+              "text": "Parameters",
+              "canonicalReference": "!Parameters:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<Stores[Key]['initialize']>[0];\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "InitialState",
+          "typeParameters": [
+            {
+              "typeParameterName": "Stores",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 4,
+            "endIndex": 7
+          }
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@cubbyjs/react!RemoteStore:interface",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface RemoteStore<Args extends "
+            },
+            {
+              "kind": "Content",
+              "text": "unknown[]"
+            },
+            {
+              "kind": "Content",
+              "text": ", Result> "
+            }
+          ],
+          "releaseTag": "Public",
+          "typeParameters": [
+            {
+              "typeParameterName": "Args",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            },
+            {
+              "typeParameterName": "Result",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "RemoteStore",
+          "members": [
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@cubbyjs/react!RemoteStore#__mockRequestFailure:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "__mockRequestFailure(arg: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "Args"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", error: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Error",
+                  "canonicalReference": "!Error:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", fetching?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 8
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "arg",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "error",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                },
+                {
+                  "parameterName": "fetching",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
+                  }
+                }
+              ],
+              "name": "__mockRequestFailure"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@cubbyjs/react!RemoteStore#__mockRequestSuccess:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "__mockRequestSuccess(arg: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "Args"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", state: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "Result"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", fetching?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 8
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "arg",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "state",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                },
+                {
+                  "parameterName": "fetching",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
+                  }
+                }
+              ],
+              "name": "__mockRequestSuccess"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@cubbyjs/react!RemoteStore#cachedFetchQuery:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "cachedFetchQuery(...args: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "Args"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<Result>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 5
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "cachedFetchQuery"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@cubbyjs/react!RemoteStore#fetchQuery:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "fetchQuery(...args: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "Args"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<Result>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 5
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "fetchQuery"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@cubbyjs/react!RemoteStore#forceFetchQuery:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "forceFetchQuery(...args: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "Args"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<Result>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 5
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "forceFetchQuery"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@cubbyjs/react!RemoteStore#getRemoteStore:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "getRemoteStore(...args: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "Args"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "GetRemoteStoreReturn",
+                  "canonicalReference": "@cubbyjs/react!GetRemoteStoreReturn:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<Result>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 5
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "getRemoteStore"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@cubbyjs/react!RemoteStore#initialize:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "initialize(initial: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "FetchedState",
+                  "canonicalReference": "@cubbyjs/react!FetchedState:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<Args, Result>[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 4,
+                "endIndex": 5
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "initial",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 3
+                  }
+                }
+              ],
+              "name": "initialize"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@cubbyjs/react!RemoteStore#useRemoteStore:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "useRemoteStore(...args: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "Args"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "UseRemoteStoreReturn",
+                  "canonicalReference": "@cubbyjs/react!UseRemoteStoreReturn:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<Result | undefined>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 5
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "useRemoteStore"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@cubbyjs/react!RemoteStore#useRemoteStoreWithGetter:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "useRemoteStoreWithGetter<SubResult>(getter: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "(state: Result | undefined) => SubResult"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", ...args: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "Args"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "UseRemoteStoreReturn",
+                  "canonicalReference": "@cubbyjs/react!UseRemoteStoreReturn:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<SubResult>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 7
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "getter",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "typeParameters": [
+                {
+                  "typeParameterName": "SubResult",
+                  "constraintTokenRange": {
+                    "startIndex": 0,
+                    "endIndex": 0
+                  },
+                  "defaultTypeTokenRange": {
+                    "startIndex": 0,
+                    "endIndex": 0
+                  }
+                }
+              ],
+              "name": "useRemoteStoreWithGetter"
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@cubbyjs/react!RemoteStoreConfig:interface",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface RemoteStoreConfig "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "RemoteStoreConfig",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cubbyjs/react!RemoteStoreConfig#cacheMs:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "cacheMs?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "cacheMs",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@cubbyjs/react!resetStores:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function resetStores(): "
+            },
+            {
+              "kind": "Content",
+              "text": "void"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [],
+          "name": "resetStores"
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@cubbyjs/react!Store:interface",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface Store<State> "
+            }
+          ],
+          "releaseTag": "Public",
+          "typeParameters": [
+            {
+              "typeParameterName": "State",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "Store",
+          "members": [
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@cubbyjs/react!Store#__mock:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "__mock(mockState: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "State"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "mockState",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "__mock"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@cubbyjs/react!Store#createAction:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "createAction<Args extends "
+                },
+                {
+                  "kind": "Content",
+                  "text": "unknown[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", Return>(cb: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "(set: (newState: State) => State, get: () => State, ...args: [...Args]) => Return"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "(...args: [...Args]) => Return"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "cb",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "typeParameters": [
+                {
+                  "typeParameterName": "Args",
+                  "constraintTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "defaultTypeTokenRange": {
+                    "startIndex": 0,
+                    "endIndex": 0
+                  }
+                },
+                {
+                  "typeParameterName": "Return",
+                  "constraintTokenRange": {
+                    "startIndex": 0,
+                    "endIndex": 0
+                  },
+                  "defaultTypeTokenRange": {
+                    "startIndex": 0,
+                    "endIndex": 0
+                  }
+                }
+              ],
+              "name": "createAction"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@cubbyjs/react!Store#get:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "get(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "State"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [],
+              "name": "get"
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@cubbyjs/react!Store#initialize:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "initialize: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "(initial: State) => void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "initialize",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@cubbyjs/react!Store#set:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "set(newState: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "State"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "State"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "newState",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "set"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@cubbyjs/react!Store#subscribe:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "subscribe(fn: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "(state: State) => void"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "() => void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "fn",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "subscribe"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@cubbyjs/react!Store#useStore:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "useStore<Getter extends "
+                },
+                {
+                  "kind": "Content",
+                  "text": "(state: State) => unknown "
+                },
+                {
+                  "kind": "Content",
+                  "text": "= "
+                },
+                {
+                  "kind": "Content",
+                  "text": "(state: State) => State"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">(getter?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "Getter"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ReturnType",
+                  "canonicalReference": "!ReturnType:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<Getter>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 9
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "getter",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
+                  }
+                }
+              ],
+              "typeParameters": [
+                {
+                  "typeParameterName": "Getter",
+                  "constraintTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "defaultTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "useStore"
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@cubbyjs/react!useCubbyInitialize:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function useCubbyInitialize<Stores extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "Record",
+              "canonicalReference": "!Record:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<string, {\n    initialize: (init: any) => void;\n}>"
+            },
+            {
+              "kind": "Content",
+              "text": ">(stores: "
+            },
+            {
+              "kind": "Content",
+              "text": "Stores"
+            },
+            {
+              "kind": "Content",
+              "text": ", initialState: "
+            },
+            {
+              "kind": "Reference",
+              "text": "InitialState",
+              "canonicalReference": "@cubbyjs/react!InitialState:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<Stores>"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "void"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 9,
+            "endIndex": 10
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "stores",
+              "parameterTypeTokenRange": {
+                "startIndex": 4,
+                "endIndex": 5
+              }
+            },
+            {
+              "parameterName": "initialState",
+              "parameterTypeTokenRange": {
+                "startIndex": 6,
+                "endIndex": 8
+              }
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "Stores",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "useCubbyInitialize"
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@cubbyjs/react!UseRemoteStoreReturn:interface",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface UseRemoteStoreReturn<Result> extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "GetRemoteStoreReturn",
+              "canonicalReference": "@cubbyjs/react!GetRemoteStoreReturn:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<Result> "
+            }
+          ],
+          "releaseTag": "Public",
+          "typeParameters": [
+            {
+              "typeParameterName": "Result",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "UseRemoteStoreReturn",
+          "members": [
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@cubbyjs/react!UseRemoteStoreReturn#refetch:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "refetch(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [],
+              "name": "refetch"
+            }
+          ],
+          "extendsTokenRanges": [
+            {
+              "startIndex": 1,
+              "endIndex": 3
+            }
+          ]
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@cubbyjs/react!useUnwrap:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function useUnwrap<Result, Return extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "GetRemoteStoreReturn",
+              "canonicalReference": "@cubbyjs/react!GetRemoteStoreReturn:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<Result>"
+            },
+            {
+              "kind": "Content",
+              "text": ">({ error, ...rest }: "
+            },
+            {
+              "kind": "Content",
+              "text": "Return"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "Omit",
+              "canonicalReference": "!Omit:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<Return, 'error'>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 6,
+            "endIndex": 8
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "{ error, ...rest }",
+              "parameterTypeTokenRange": {
+                "startIndex": 4,
+                "endIndex": 5
+              }
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "Result",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            },
+            {
+              "typeParameterName": "Return",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "useUnwrap"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@cubbyjs/react!withCubby:function(1)",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function withCubby<Props extends "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    cubbyState: any;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ">(stores: "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    [K in keyof Props['cubbyState']]: {\n        initialize: (init: Props['cubbyState'][K]) => void;\n    };\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ", Root: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ComponentType",
+              "canonicalReference": "@types/react!~React.ComponentType:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "Omit",
+              "canonicalReference": "!Omit:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<Props, 'cubbyState'>>"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Reference",
+              "text": "ComponentType",
+              "canonicalReference": "@types/react!~React.ComponentType:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<Props>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 10,
+            "endIndex": 12
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "stores",
+              "parameterTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              }
+            },
+            {
+              "parameterName": "Root",
+              "parameterTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 9
+              }
+            }
+          ],
+          "typeParameters": [
+            {
+              "typeParameterName": "Props",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "withCubby"
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@cubbyjs/react!WithCubbyState:type",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare type WithCubbyState<Props, Stores extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "Record",
+              "canonicalReference": "!Record:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<string, {\n    initialize: (init: any) => void;\n}>"
+            },
+            {
+              "kind": "Content",
+              "text": "> = "
+            },
+            {
+              "kind": "Content",
+              "text": "Props & {\n    cubbyState: "
+            },
+            {
+              "kind": "Reference",
+              "text": "InitialState",
+              "canonicalReference": "@cubbyjs/react!InitialState:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<Stores>;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "WithCubbyState",
+          "typeParameters": [
+            {
+              "typeParameterName": "Props",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            },
+            {
+              "typeParameterName": "Stores",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 4,
+            "endIndex": 7
+          }
+        }
+      ]
+    }
+  ]
+}

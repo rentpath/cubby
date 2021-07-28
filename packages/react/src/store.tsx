@@ -97,18 +97,17 @@ export function createStore<State>(name: string, initial: State): Store<State> {
   return store
 }
 
-export const resetStores = () => resetCallbackMap.forEach((cb) => cb())
+export function resetStores() {
+  resetCallbackMap.forEach((cb) => cb())
+}
 
 export type InitialState<Stores extends Record<string, { initialize: (init: any) => void }>> = {
   [Key in keyof Stores]: Parameters<Stores[Key]['initialize']>[0]
 }
 
-export const useCubbyInitialize = <
+export function useCubbyInitialize<
   Stores extends Record<string, { initialize: (init: any) => void }>
->(
-  stores: Stores,
-  initialState: InitialState<Stores>
-): void => {
+>(stores: Stores, initialState: InitialState<Stores>): void {
   const lastProps = useRef<InitialState<Stores>>()
   if (initialState !== lastProps.current) {
     for (const key of Object.keys(stores)) {
