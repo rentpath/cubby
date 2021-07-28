@@ -91,21 +91,6 @@ describe('store', () => {
     })
   })
 
-  describe('createDerivedStore', () => {
-    it('gets the transformed initial data', () => {
-      const parent = createStore('parent', 1)
-      const child = parent.createDerivedStore('child', (state) => state + 1)
-      expect(child.get()).toBe(2)
-    })
-
-    it('gets the transformed data when the parent is set', () => {
-      const parent = createStore('parent', 1)
-      const child = parent.createDerivedStore('child', (state) => state + 1)
-      parent.set(5)
-      expect(child.get()).toBe(6)
-    })
-  })
-
   describe('hook', () => {
     it('gets the initial value', () => {
       const initial = { foo: 123 }
@@ -151,20 +136,6 @@ describe('store', () => {
         store.set(newState)
       })
       expect(result.current).toBe(newState.a.b.c.d.e)
-    })
-
-    describe('createDerivedStore', () => {
-      it('updates when the parent updates', async () => {
-        const parent = createStore('parent', 1)
-        const child = parent.createDerivedStore('child', (state) => state + 1)
-        const { result } = renderHook(() => child.useStore((s) => s))
-        expect(result.current).toBe(2)
-        act(() => {
-          parent.set(5)
-        })
-
-        expect(result.current).toBe(6)
-      })
     })
   })
 })
