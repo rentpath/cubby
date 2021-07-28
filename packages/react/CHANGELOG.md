@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.6.0 (2021-07-28)
+
+
+### Features
+
+* **cubbyjs:** withCubby HOC for initializing cubby stores ([ae78451](https://github.com/rentpath/cubby/commit/ae78451577a002b0e7080c6b4f3467341c0482fb))
+* **remoteStore:** expose the query function ([8cca0d8](https://github.com/rentpath/cubby/commit/8cca0d8173c1989a4068df02e8d535f97ced81a7))
+
+
+
+
+
 # 0.5.0 (2021-07-28)
 
 
