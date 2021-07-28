@@ -153,6 +153,12 @@ describe('remoteStore', () => {
     })
   })
 
+  it('exposes the query function', () => {
+    const fn = async () => {}
+    const rs = createRemoteStore('rs', fn)
+    expect(rs.query).toBe(fn)
+  })
+
   describe('hook', () => {
     describe('fetch', () => {
       it('fetches with no arg', async () => {
