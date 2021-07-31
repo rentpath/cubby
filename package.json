@@ -11,8 +11,8 @@
     "clean": "lerna run clean",
     "commit": "cz",
     "commit:lint": "commitlint -f $(git log origin/main --oneline --pretty=%h | head -n 1) -t $(git rev-parse --short HEAD) --verbose",
-    "lint:ts": "yarn lint:ts:ci --fix",
-    "lint:ts:ci": "eslint --cache --no-error-on-unmatched-pattern packages",
+    "lint:ts": "yarn lerna run lint:ts",
+    "lint:ts:ci": "yarn lerna run lint:ts:ci",
     "test": "jest",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand"
   },

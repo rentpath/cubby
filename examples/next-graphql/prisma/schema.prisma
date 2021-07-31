@@ -1,0 +1,36 @@
+generator client {
+    provider        = "prisma-client-js"
+    previewFeatures = ["selectRelationCount"]
+}
+
+generator nexusPrisma {
+    provider = "nexus-prisma"
+}
+
+datasource db {
+    provider = "sqlite"
+    url      = "file:./dev.db"
+}
+
+model Listing {
+    id             Int         @id @default(autoincrement())
+    name           String      @unique
+    address        String
+    favoritedUsers User[]
+    floorplans     Floorplan[]
+}
+
+model Floorplan {
+    id        Int     @id @default(autoincrement())
+    beds      Int
+    baths     Int
+    sqft      Int
+    listing   Listing @relation(fields: [listingId], references: [id])
+    listingId Int
+}
+
+model User {
+    id        Int       @id @default(autoincrement())
+    email     String    @unique
+    favorites Listing[]
+}

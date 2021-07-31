@@ -1,0 +1,7 @@
+mutation AddFavorite($userId: Int!, $listingId: Int!) {
+  addFavorite(listingId: $listingId, userId: $userId) {
+    favorites {
+      id
+    }
+  }
+}

@@ -1,0 +1,7 @@
+mutation RemoveFavorite($userId: Int!, $listingId: Int!) {
+  removeFavorite(listingId: $listingId, userId: $userId) {
+    favorites {
+      id
+    }
+  }
+}
